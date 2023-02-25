@@ -1,6 +1,6 @@
 import Notification from "./notification";
 
-describe("Unit testss for notifications", () => {
+describe("Unit tests for notifications", () => {
   it("should create errors", () => {
     const notification = new Notification();
     const error = {
@@ -28,11 +28,28 @@ describe("Unit testss for notifications", () => {
     };
     notification.addError(error3);
 
-    expect(notification.messages("customer")).toBe(
-      "customer: error message,customer: error message2,"
+    const error4 = {
+      message: "error message4",
+      context: "product",
+    };
+
+    notification.addError(error4);
+
+    expect(notification.messages("product")).toBe("product: error message4,");
+
+    const error5 = {
+      message: "error message5",
+      context: "product",
+    };
+    notification.addError(error5);
+
+    expect(notification.messages("product")).toBe(
+      "product: error message4,product: error message5,"
     );
+
+    
     expect(notification.messages()).toBe(
-      "customer: error message,customer: error message2,order: error message3,"
+      "customer: error message,customer: error message2,order: error message3,product: error message4,product: error message5,"
     );
   });
 
@@ -43,6 +60,14 @@ describe("Unit testss for notifications", () => {
       context: "customer",
     };
     notification.addError(error);
+
+    expect(notification.hasErrors()).toBe(true);
+
+    const error2 = {
+      message: "error message2",
+      context: "product",
+    };
+    notification.addError(error2);
 
     expect(notification.hasErrors()).toBe(true);
   });
@@ -56,5 +81,13 @@ describe("Unit testss for notifications", () => {
     notification.addError(error);
 
     expect(notification.getErrors()).toEqual([error]);
+
+    const error2 = {
+      message: "error message2",
+      context: "product",
+    };
+    notification.addError(error2);
+
+    expect(notification.getErrors()).toEqual([error, error2]);
   });
 });
