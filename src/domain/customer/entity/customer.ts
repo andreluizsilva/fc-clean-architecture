@@ -36,7 +36,7 @@ export default class Customer extends Entity {
     this.validate();
   }
 
-  get Address(): Address {
+  get address(): Address {
     return this._address;
   }
 
@@ -63,7 +63,7 @@ export default class Customer extends Entity {
     this._rewardPoints += points;
   }
 
-  set Address(address: Address) {
+  set address(address: Address) {
     this._address = address;
   }
 }
