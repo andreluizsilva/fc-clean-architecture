@@ -4,14 +4,13 @@ import ProductRepository from "../../../infrastructure/product/repository/sequel
 import CreateProductUseCase from "../create/create.product.usecase";
 import UpdateProductUseCase from "./update.product.usecase";
 
-const product = {
-    id: 1,
+const product = {    
     name: "Product",
     price: 30
 }
 
 const input = {
-  id: 1,
+  id: "",
   name: "Product Updated",
   price: 60,
 };
@@ -41,8 +40,10 @@ describe("Integration test for product update use case", () => {
 
     const outputCreate = await productCreateUseCase.execute(product);
 
-    const outputUpdate = await productUpdateUseCase.execute(outputCreate);
+    input.id = outputCreate.id;
 
-    expect(outputUpdate).toEqual(outputCreate);
+    const outputUpdate = await productUpdateUseCase.execute(input);
+
+    expect(outputUpdate).toEqual(input);
   });
 });
